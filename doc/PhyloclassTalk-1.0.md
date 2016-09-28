@@ -70,13 +70,30 @@ The BLAST query builder works by selecting BLAST properties of interest along wi
 
 ![Blast Query Results Selection](images\PhyloclassTalk_BlastQuery_1.jpg)
 
+From [https://www-bimas.cit.nih.gov/blastinfo/blaststrategy.html](https://www-bimas.cit.nih.gov/blastinfo/blaststrategy.html)
+
+_  The High-scoring Segment Pair (HSP) is the fundamental unit
+  of BLAST algorithm output.  An HSP consists of two sequence
+  fragments of arbitrary but equal length whose  alignment  is
+  locally  maximal  and for which the alignment score meets or
+  exceeds a threshold or cutoff score.  A set of HSPs is  thus
+  defined  by  two  sequences,  a scoring system, and a cutoff
+  score; this set may be empty if the cutoff score  is  suffi-
+  ciently  high.   In  the programmatic implementations of the
+  BLAST algorithm described here, each HSP consists of a  seg-
+  ment  from  the  query  sequence  and  one  from  a database
+  sequence.  The sensitivity and speed of the programs can  be
+  adjusted  via  the standard BLAST algorithm parameters W, T,
+  and X (Altschul et al., 1990); selectivity of  the  programs
+  can be adjusted via the cutoff score._
+
 Supported properties of BLAST results are:
 
   - Alignment Length: Length of the alignment used
   - Hit Definition: Scan the definition line for subject sequence.
   - Hit Length: Length of the subject sequence.
-  - Number of Identities in HSP (high-scoring segment pair)
-  - Number of Positives in HSP
+  - Number of Identities in HSP (high-scoring segment pair, or match):  The number and fraction of total residues in the HSP which are identical.
+  - Number of Positives in HSP: The number and fraction of residues for which the alignment scores have positive values.
   - E-Value of HSP: Expect value of the HSP
   - Score Bits of HSP: A Bit-Score is a normalized log-scaled version of a score expressed in bits. From the NCBI web site: _The bit score, S', is derived from the raw alignment score, S, taking the statistical properties of the scoring system into account. Because bit scores are normalized with respect to the scoring system, they can be used to compare alignment scores from different searches._
   - Score of HSP: The HSP score represents the overall quality of the alignment. Higher numbers correspond to higher similarity. The score scale depends on the scoring system used (substitution matrix, gap penalty)
@@ -253,3 +270,18 @@ Before you contact mailing list, gather the background information that you will
 - Do you have logs, traces, or messages that are related to the problem?
 - Can you reproduce the problem? If so, what steps do you take to reproduce it?
 - Is there a workaround for the problem? If so, be prepared to describe the workaround.
+
+# Developing PhyloclassTalk
+
+## Building PhyloclassTalk in UNIX-like
+
+To build latest image of PhyloclassTalk in UNIX-like environment, execute the following script:
+
+```bash
+#!/bin/sh
+(wget -O- http://get.pharo.org/50+vm | bash) &
+wait
+./pharo-vm/pharo Pharo.image config "http://smalltalkhub.com/mc/hernan/PhyloclassTalk" "ConfigurationOfPhyloclassTalk" --printVersion --install=bleedingEdge
+```
+
+## Building PhyloclassTalk in Windows
