@@ -1,21 +1,24 @@
 ---
 title: PhyloclassTalk v 1.0
 subtitle: User's Guide
-author: Hernán Morales
-contributor: Guillermo Giovambattista
+author:
+  - Hernán Morales
+  - Guillermo Giovambattista
+affiliation: IGEVET
 date: 26/11/2015
 rights:  Creative Commons Non-Commercial Share Alike 3.0
+keywords: phylogenetics, dna, sequence, classification, phylogeography, blast, species, organism
 language: en-US
 ...
 
-------------------------------------------------------------------------
+\pagebreak
 
-##Introduction
+#Introduction
 
-PhyloclassTalk is an open source bioinformatics platform that aims to help in phylogenetics workflows. PhyloclassTalk can provide information about wealth and geographical distribution of studied species. Its main features are:
+PhyloclassTalk is an open-source bioinformatics platform that aims to help providing information about wealth and geographical distribution of studied species. Its main features are:
 
   - A novel graphical user-interface to build BLAST queries (Blast Query Builder).
-  - A territorial builder framework based in a new geopolitical library (Territorial).
+  - A territorial builder framework and user-interface based in a new geopolitical library (Territorial).
   - A species repository module enabling species name search and selection for later recognition.
   - Geographical classification of retrieved sequences through feature extraction and text-mining from the GenBank database.
 
@@ -29,25 +32,74 @@ PhyloclassTalk is developed using the following technologies:
 
 ![PhyloclassTalk Main Window](images\PhyloclassTalk_Main.jpg)
 
-### Platforms
+## Platforms
 
-PhyloclassTalk is distributed as a desktop application, developped, maintained and tested on Pharo Smalltalk (http://pharo.org/), and therefore it should be able to execute under Microsoft Windows, GNU/Linux and MacOS X platforms. To access latest fixes and features, click in the Configuration icon and the button "Update PhyloclassTalk" from the settings list. PhyloclassTalk has been developed and tested in the following Operating Systems
+PhyloclassTalk is distributed as a desktop application, developed, maintained and tested on [Pharo Smalltalk][8fa36b9f], and therefore it should be able to execute under Microsoft Windows, GNU/Linux and MacOS X platforms. To access latest fixes and features, click in the Configuration icon and the button "Update PhyloclassTalk" from the settings list. PhyloclassTalk has been developed and tested in the following Operating Systems
+
+  [8fa36b9f]: http://www.pharo.org "Pharo Smalltalk"
 
 - Microsoft Windows XP (SP2, SP3), 7, 8.0, 8.1
 - GNU/Linux CentOS 6, 7
 - GNU/Linux Debian
 
-### Privacy
+## Privacy
 
 Project data and user working data sets are not sent to any on-line server.
 
-#Workflows
+\pagebreak
 
-The PhyloclassTalk application’s architecture and behavior can be broken up into two separate function-groups: Configuring and running a classifier over downloaded information, and curating the classified results while updating dictionaries. These tasks will be covered in more detail later in this document. PhyloclassTalk enables you to easily filter BLAST hits, associate sequences with GenBank annotations, and perform classifications on these sequences.
+# Getting Started
+
+## What you need
+
+- A BLAST results file in XML format exported from the NCBI WebSite.
+- A group of territories or breeds to label retrieved sequence records.
+
+## Installation
+
+### Windows
+
+On Windows, simply run the self-installer file. The PhyloclassTalk executable Windows installer can handle required DLL files installation and decompressing the executables and data files into your preferred location. It also includes the sample files.
+
+### Linux
+
+On Linux, untar and uncompress the downloaded distribution:
+
+```bash
+tar zxvf phyloclasstalk-1.0.0.11.tar.gz
+cd phyloclasstalk-1.0.0.11
+./pharo phyloclasstalk-1.0.0.11.image
+```
+
+_Note: Version numbers can differ according to the current PhyloclassTalk version._
+
+\pagebreak
+
+# Subsystems
+
+The PhyloclassTalk application’s architecture and behavior can be broken up into two separate function-groups:
+
+- Configuring and running a classifier over downloaded information.
+- Curating the classified results while updating dictionaries.
+
+Both tasks will be covered in more detail later in this document. PhyloclassTalk enables you to easily filter BLAST hits, associate sequences with (currently only GenBank) annotations, and perform classifications on these sequences.
+
+## Projects
+
+A project must be created to do anything useful beyond reading help and configuring global parameters. To create a PhyloclassTalk project, click the main **Projects** button and the **Create New Project** button. Projects are not saved on disk until the **Save Current Project** button is clicked. Currently projects includes basic information such as Date of creation, Author name, Version number, and specific information related with text-mining and classification:
+
+- The classifier used.
+- Selected species/organism repositories to support text-mining and classification.
+- Territorial area of interest.
+- Blast Query Manager, which maintains Blast filters and query results.
+
+Once a Project is created, all the remaining tools became available to work in the context of the current project. One could start by defining a territorial area to narrow the text-mining or by filtering a BLAST XML file downloaded from the NCBI's web site.
 
 ## Blast Query Builder
 
-The Blast Query Builder is an user interface to create and execute queries dynamically against a blast result dataset previously downloaded in XML format. Such input file can be obtained from the NCBI Blast Web Site, exporting the resulting alignment in XML.
+Blast is a family of programs (BLASTn, BLASTp, BLASTx, TBLASTn and TBLASTx) to compare a short bio-sequence (called the "query" sequence) against sequences in a large database. There is a huge literature about sequence (and string) matching which can be queried through a simple search in Internet. For such reason an explanation of Blast concepts are beyond the scope of this manual, however we assume a basic understanding of Blast parameters for proper manipulation of the Blast Query Builder.
+
+The Blast Query Builder is an user interface to create and execute queries dynamically against a blast result dataset previously downloaded in XML format. Such input file can be obtained from the NCBI Blast Web Site, exporting the resulting alignment in XML format.
 
 ### Loading a Data set
 
@@ -72,20 +124,7 @@ The BLAST query builder works by selecting BLAST properties of interest along wi
 
 From [https://www-bimas.cit.nih.gov/blastinfo/blaststrategy.html](https://www-bimas.cit.nih.gov/blastinfo/blaststrategy.html)
 
-_  The High-scoring Segment Pair (HSP) is the fundamental unit
-  of BLAST algorithm output.  An HSP consists of two sequence
-  fragments of arbitrary but equal length whose  alignment  is
-  locally  maximal  and for which the alignment score meets or
-  exceeds a threshold or cutoff score.  A set of HSPs is  thus
-  defined  by  two  sequences,  a scoring system, and a cutoff
-  score; this set may be empty if the cutoff score  is  suffi-
-  ciently  high.   In  the programmatic implementations of the
-  BLAST algorithm described here, each HSP consists of a  seg-
-  ment  from  the  query  sequence  and  one  from  a database
-  sequence.  The sensitivity and speed of the programs can  be
-  adjusted  via  the standard BLAST algorithm parameters W, T,
-  and X (Altschul et al., 1990); selectivity of  the  programs
-  can be adjusted via the cutoff score._
+_The High-scoring Segment Pair (HSP) is the fundamental unit of BLAST algorithm output.  An HSP consists of two sequence fragments of arbitrary but equal length whose  alignment  is locally  maximal  and for which the alignment score meets or exceeds a threshold or cutoff score.  A set of HSPs is  thus defined  by  two  sequences,  a scoring system, and a cutoff score; this set may be empty if the cutoff score  is  sufficiently  high.   In  the programmatic implementations of the BLAST algorithm described here, each HSP consists of a  segment  from  the  query  sequence  and  one  from  a database sequence.  The sensitivity and speed of the programs can be adjusted  via  the standard BLAST algorithm parameters W, T, and X (Altschul et al., 1990); selectivity of  the  programs can be adjusted via the cutoff score._
 
 Supported properties of BLAST results are:
 
@@ -110,7 +149,7 @@ Supported properties of BLAST results are:
 
 ### Executing Queries
 
-Query execution works by walking the user filters and executing each one in turn. Execution can be cumulative (default behavior) or non-cumulative. In the cumulative configuration, each filter is executed on the previous filtered results. Non-cumulative execution generates a result set for each filter, which is useful to compare filters performance.
+Query execution works by walking each filter and executing in turn. Execution can be cumulative (default behavior) or non-cumulative. In the cumulative configuration, each filter is executed acting on the previous filtered results. Non-cumulative execution generates a result set for each filter, which is useful to compare filters performance.
 
 Cumulative execution and other useful settings can be changed by selecting Tools -> Options from the toolbar menu.
 
@@ -124,17 +163,52 @@ Each execution result is displayed in a new palette in the Results pane, however
 
 Results can be saved and exported to FASTA and CSV formats. Exporting as CSV report includes all the available information previously selected in the resulting nodes window. To export to FASTA format, select, in the output result window, both the HIT_DEFINITION and the aligned sequences items.
 
+\pagebreak
+
+### Debugging Queries
+
+Debugging implies the execution of each line of a script step by step. The Blast Query Builder runs into Pharo, a full Smalltalk object programming environment which enables the option of debugging queries with programming scripts by opening a Workspace (a tool used to write or paste scripts).
+
+To debug a script, open a "World Menu" by clicking in any empty area of PhyloclassTalk, then click Workspace and replace the organismName and blastXML variable, in the following script, with your organism name (as shown in the Hit definition line in the XML output) and exported Blast XML file name:
+
+```smalltalk
+| qm prop cmp organismName outputProperty blastXML |
+organismName := 'homo sapiens'.
+blastXML := 'V9T8NT6S01R-Alignment.xml'.
+prop := BlastQBProperty new
+			name: 'Hit_def';
+			propertySelector: #selectHitDefinitions:
+			yourself.
+outputProperty := BlastQBProperty new
+	propertySelector: #selectHspAlignLengths;
+	name: 'Hsp_align-len'.
+cmp := QBPropertyComparator new selector: #beginsWith:.
+qm := BlastQBQueryManager new
+	addBlast: blastXML asFileReference readStream;
+	addNewQuery: { prop . cmp . organismName };
+	selectedNodes: (OrderedCollection with: outputProperty);
+	executeQuery.
+```
+
+Select the code and bring the contextual menu, then click Debug it to access the Debugger. An explanation of how to debug code is beyond this manual but any search in Internet can reveal short tutorials to get started.
+
+\pagebreak
+
 ## Rule-Base
 
 The Rule-Base Module is an UI for browsing and editing rules in a hierarchical fashion. Rules are displayed as a binary tree enabling to explore how the classification algorithm is evaluated. Each selected rule is displayed along with the Smalltalk code which contains its condition, the true and false branches.
 
 ![PhyloclassTalk Rules Tree](images\PhyloclassTalk_RulesTree_1.jpg)
 
+\pagebreak
+
 ##Species Repository
 
 ###Browsing Repository Data
 
-The species repository contains curated dictionaries of species names, synonyms, locations and additional information like date of extinction (if extinct). Each species is shown in a tree, and could contain several repositories. Our species model does not integrate species data in an unique dictionary. This is done on purpose to be able to measure performance of specific dictionaries, and because different species/pedigrees dictionaries have different models (and would require an ontology disambiguation). The classifier module allows to combine different dictionaries but this feature is experimental and currently has not been tested.
+The species repository contains curated dictionaries of species names, synonyms, locations and additional information like date of extinction (if extinct). Each species is shown in a tree, and could contain several repositories.
+
+Our species model does not integrate species data in an unique dictionary, nor normalize identifiers across databases. This is done on purpose to be able to measure performance of specific data sources, and because different species/pedigrees dictionaries have different models (and would require an ontology disambiguation or mapping between different fields). The classifier module allows to combine different dictionaries but this feature is experimental and currently has not been tested.
 
 A species item is displayed along with the number of repositories currently imported. Opening a species tree item will show a list of repositories for that species, with the corresponding size of the dictionary.
 
@@ -148,10 +222,17 @@ The repository preview panel displays the selected dictionary, with the possibil
 
 ###Updating Repository Data
 
-Dictionary data can be updated from remote (through Google Drive currently) repositories automatically. If you curate a dictionary, please register in the project page to be sure your changes will be reviewed and integrated in the next software version.
+All repositories can be updated from remote (currently only through **Google Drive**) by clicking Update button.
 
-A species dictionary format has a CSV format with the following specification:
+### Adding a Custom Repository
 
+A custom repository could be created directly through PhyloclassTalk by clicking the "Add Repository" button. All mandatory fields are marked with *
+
+If you create or curate a dictionary, you could have integrated in the next PhyloclassTalk distribution. Please register in the project page to be sure your changes will be reviewed and integrated in the next software version.
+
+A species repository format has a CSV format with the following specification:
+
+- Field Separator should be semicolon ";"
 - Column 1: Unique name of pedigree (mandatory) in English language.
 - Column 2: Synonyms (if available) delimited by commas (,) in English language. If no synonyms are entered, this field should be empty.
 - Column 3: Territory of origin in English language. If several territories are available, they must be delimited by commas (,). If no territories are entered, this field should be empty. Territory of origin could be, for example, a country name.
@@ -162,14 +243,17 @@ A species dictionary format has a CSV format with the following specification:
 
 If a pedigree name or synonym is duplicated, only the first detected (from the beginning of file) will be used during a classification.
 
+\pagebreak
 
-##Territory Builder
+## Territory Builder
 
 ###Introduction
 
 The Territory Builder supports building custom geopolitical territories for population studies. Any containment relationship could be defined, for example, you may want to define your territory of interest by creating artificial groupings like "Developed Countries" and "Developing Countries".
 
 The usage of the Territory Builder is driven by a user-interface (UI) wizard. You can open the Territory Builder wizard by clicking the "Territory Builder" icon in the main application screen. When the process finishes, an "Explorer" window is opened. In the Explorer you may see the properties in your new territory, and save it to a file.
+
+The Territory API is better described in its own manual.
 
 ###Creating a new territory
 
@@ -197,24 +281,26 @@ Once finished, the wizard will popup an Explorer window to review or make modifi
 
 To add territories to a "Composite Territory", select the option "Add territory..." in the menu item.
 
-###Open territory files
+### Open territory files
 
 A territory is a file with .tty extension. You can open a previously created territory by:
 
 - Click in the Territory Builder icon and select Territory Viewer. A window with list of saved territories is displayed at the top. The bottom of the window displays a map for the currently selected territory.
 - Open the "World menu", then Tools, and File Browser. Navigate to your project folder, and selecting the territory file. Once found, select the .tty file and then right-click to bring the contextual menu. Select the menu item "BioSmalltalk: Materialize". An explorer window will open displaying the territory containment structure.
 
+\pagebreak
+
 ##Classifier
 
 ###Introduction
 
-The PhyloclassTalk Classifier is a frendly user-interface window to perform rule-based classification of observations (or instances). Currently observations are based in GenBank Records but other type of records (for example, EMBL) could be possible, although not currently implemented.
+The PhyloclassTalk Classifier includes a friendly user-interface window to perform rule-based classification of observations (or instances). Observations are based in GenBank Records but other type of records (for example, EMBL) could be possible, although not currently implemented.
 
 The classifier window is divided in three main panels. Left-most panel - named Classifier Parameters - contains the classifier settings stored in the current project. Both the middle and right-panels contains the classification results once finished.
 
 ###Classifier Parameters
 
-The Classifier Parameters includes all necessary settings to change the Classifier behavior. All settings are required to have non-empty values.
+The Classifier Parameters includes all necessary settings to change the Classifier behaviour. All settings are required to have non-empty values.
 
 ####Classifier Rules
 
@@ -233,55 +319,166 @@ The Selected Species settings is intended to display a list of repositories sele
 
 ###Classification Matches
 
+_Under development_
+
 ###Classification Mismatches
 
-Mismatches can be queried from the "Mismatches View" by selecting an item, a feature of interest, and launching a search provider through an external web browser. The search provider enables to narrow the query to a specific search engine. For example, selecting the feature for DOI will search using the [http://doi.org/](http://doi.org/) search engine, selecting an accession number feature (GBSeq_accession-version), will launch a search through Entrez e-Utils service.
+Mismatches can be queried from the "Mismatches View" by selecting an item, a feature of interest, and launching a search provider through an external web browser.
+
+The search provider enables to narrow the query to a specific search engine. For example, selecting the feature for DOI will search using the [http://doi.org/](http://doi.org/) search engine, selecting an accession number feature (GBSeq_accession-version), will launch a search through Entrez e-Utils service.
 
 Notice the features available to select are generated dynamically from the currently available features for the selected item in the Mismatches View data grid.
 
+\pagebreak
+
 ##GenBank Browser
 
-The GenBank Browser allows to browse downloaded GenBank records from the NCBI GBSeq (http://www.ncbi.nlm.nih.gov/dtd/NCBI_GBSeq.dtd). From the GenBank DTD comment:
+The GenBank Browser allows to browse downloaded GenBank records from the NCBI GBSeq specification (http://www.ncbi.nlm.nih.gov/dtd/NCBI_GBSeq.dtd). From the GenBank DTD comment:
 
 >GBSeq represents the elements in a GenBank style report of a sequence with some small additions to structure and support for protein (GenPept) versions of GenBank format as seen in Entrez. While this represents the simplification, reduction of detail, and flattening to a single sequence perspective of GenBank format (compared with the full ASN.1 or XML from which GenBank and this format is derived at NCBI), it is presented in ASN.1 or XML for automated parsing and processing. It is hoped that this compromise will be useful for those bulk processing at the GenBank format level of detail today. Since it is a compromise, a number of pragmatic decisions have been made.
 
-The GenBank Browser works by parsing the nodes found in a downloaded GenBank XML tree. You can download such XML tree through the Blast Query Module (each results palette includes a button to download the GenBank records for the retrieved/filtered hits).
+The GenBank Browser works by parsing the nodes found in a downloaded GenBank XML tree. You can download such GenBank XML tree through the Blast Query Module. After filter execution, each results palette includes a button to download the GenBank records for the retrieved/filtered hits.
 
 ###GenBank Feature Tables
 
-Notice that a data set will actually contain additional and/or different columns (features) names than those listed in the Profile List. This is because GenBank/EMBL/DDBJ provides a Feature Table (see http://www.insdc.org/files/feature_table.html for details) to include additional extensible features. Columns like "organism", "isolate", "country", "breed", etc. are contained in GBQualifier_name and GBQualifier_value nodes in the NCBIGBSeq DTD. It means that to view such "hidden" features, you should select GBQualifier_name and GBQualifier_value in the list of features.
+The GenBank Browser contains a list of features to filter results in a Data View grid. Once a feature is selected, features (columns) are updated for the current loaded data set. This is useful to narrow which nodes are significant for your needs by improving space and processing time. Notice that the grid view displays additional/different columns not displayed in the "Profiles List". This is because GenBank/EMBL/DDBJ provides a Feature Table (see http://www.insdc.org/files/feature_table.html for details) to include additional extensible features. Columns like
+
+- "organism"
+- "isolate"
+- "country"
+- "breed"
+
+etc. are contained in **GBQualifier_name** and **GBQualifier_value** nodes in the NCBIGBSeq DTD. This means that to view such "hidden" features, you should select GBQualifier_name and GBQualifier_value in the list of features.
+
+\pagebreak
+
+##Files
+
+PhyloclassTalk creates a project file .phylocst in the (pharo) virtual image directory, which contains different objects related to an user project.
+
+Extension|Description
+-|-
+.phylocst|PhyloclassTalk Project File (Fuel format)
+.bq |Blast Query Builder query file (Fuel format)
+
+##Export Formats
+
+Extension|Description
+-|-
+.arp|Arlequin Software Project File (ASCII)
+.csfasta|FASTA File Format (ASCII)
+.csv|Comma-Separated Values (ASCII)
+.meg|MEGA Software (ASCII)
+
+## Using Reflective Facilities of Smalltalk
+
+Pharo Smalltalk is usually described as a system of living objects, where almost everything can be easily explored and modified. PhyloclassTalk is implemented on top of Pharo Smalltalk and a group of supporting libraries.
+
+Several parts of the system includes an option for inspecting or exploring the object under focus. For example the Blast Query Builder includes an option to explore the saved or merged results.
+
+For details on the Smalltalk language and the Pharo environment, we encourage users to read the [Deep Into Pharo][674c51b9] book.
+
+  [674c51b9]: http://www.deepintopharo.com/ "Deep Into Pharo Book"
 
 
-The GenBank Browser contains a list of features to filter results in the Data View grid. Once a feature is selected, features (columns) are updated for the current loaded data set. This is useful to narrow further which nodes are significant for your needs by improving space and processing time.
+\pagebreak
 
-##Credits
+# Credits
 
-PhyloclassTalk has been originally developed by Hernán Morales Durand and Guillermo Giovambattista. The work is sponsored by the Institute of Veterinary Genetics (IGEVET) - National Scientific and Technical Research Council (CONICET) in Argentina.
+PhyloclassTalk has been originally developed by Hernán Morales and Guillermo Giovambattista. The work is sponsored by the Institute of Veterinary Genetics ([IGEVET][08853fd8]) - National Scientific and Technical Research Council (CONICET) in Argentina.  To find more information about PhyloclassTalk, please visit the official web page [http://phyloclasstalk.github.io/][c694e0ed]
 
-##Contributing
+  [08853fd8]: http://www.igevet.gob.ar "Instituto de Genética Veterianaria (CCT - La Plata)"
+  [c694e0ed]: http://phyloclasstalk.github.io/ "PhyloclassTalk Web Site"
 
-If you have an interest in PhyloclassTalk,  https://github.com/PhyloclassTalk is the place you want to go right away. The main developer of PhyloclassTalk may be reached by sending email to hernan.morales@gmail.com
+This User manual was written by Hernán Morales <hernan.morales@gmail.com> and is a concise guide explaining the features as well as giving step-by-step instructions on using PhyloclassTalk. Please send all comments and suggestions regarding this manual to the BioSmalltalk Mailing List by sending an email to <biosmalltalk-users@googlegroups.com>.
 
-#Troubleshooting
+# Troubleshooting
+
+Please try to ascertain that the behavior you see really is a bug.
+
+- If PhyloclassTalk crashes, it’s a bug.
+- If PhyloclassTalk does not behave as documented, it’s a bug.
+- If things work strange, but you are not sure about the way they are supposed to work, it might well be a bug, but you might want to doublecheck the documentation and the mailing lists.
 
 Before you contact mailing list, gather the background information that you will need to describe your problem. When describing a problem, be as specific as possible and include all relevant background information. To save time, know the answers to these questions:
 
-- What PhyloclassTalk version were you running when the problem occurred?
-- Do you have logs, traces, or messages that are related to the problem?
+- Which PhyloclassTalk version were you running when the problem occurred?
+    - Information provided in the upper right box in the application, or in the user manual if application couldn't be opened.
+- Do you have logs, traces, or messages that are related to the problem? Logs are found in these locations:
+    - The directory where the .image file is found, file named : PharoDebug.log
+    - The Transcript window inside the application: Click in empty space, Tools, Transcript.
 - Can you reproduce the problem? If so, what steps do you take to reproduce it?
 - Is there a workaround for the problem? If so, be prepared to describe the workaround.
 
-# Developing PhyloclassTalk
+\pagebreak
 
-## Building PhyloclassTalk in UNIX-like
+# Communication Channels
+
+## Contributing
+
+PhyloclassTalk is actively in development and constantly improving. If you have an interest in PhyloclassTalk, the [Source Code Repository][ebf858a3] is the place you want to go right away. The main developer of PhyloclassTalk may be reached by sending email to hernan.morales@gmail.com
+
+  [ebf858a3]: https://github.com/PhyloclassTalk "Source Code Repository"
+
+PhyloclassTalk is under active development by members of "Instituto de Genética Veterianaria (CCT - La Plata)".
+
+\pagebreak
+
+## Developing PhyloclassTalk
+
+### Building PhyloclassTalk in UNIX-like
 
 To build latest image of PhyloclassTalk in UNIX-like environment, execute the following script:
 
 ```bash
 #!/bin/sh
-(wget -O- http://get.pharo.org/50+vm | bash) &
+
+(wget -O- http://get.pharo.org/50+vm | bash) \&
 wait
-./pharo-vm/pharo Pharo.image config "http://smalltalkhub.com/mc/hernan/PhyloclassTalk" "ConfigurationOfPhyloclassTalk" --printVersion --install=bleedingEdge
+./pharo-vm/pharo Pharo.image config \\
+  "http://smalltalkhub.com/mc/hernan/PhyloclassTalk" \\
+  "ConfigurationOfPhyloclassTalk" --printVersion --install=bleedingEdge
 ```
 
-## Building PhyloclassTalk in Windows
+### Building PhyloclassTalk in Windows
+
+To build latest image of PhyloclassTalk in Windows environments you need to install MinGW with MSYS, and execute the following script from the MSYS shell (usually `C:\MinGW\msys\1.0\msys.bat`):
+
+```bash
+#!/bin/sh
+
+(wget -O- http://get.pharo.org/50+vm | bash) \&
+wait
+./pharo-vm/pharo Pharo.image config \\
+  "http://smalltalkhub.com/mc/hernan/PhyloclassTalk" \\
+  "ConfigurationOfPhyloclassTalk" --printVersion --install=bleedingEdge
+```
+
+## Known Issues
+
+Please visit the source code repository at [https://github.com/PhyloclassTalk](https://github.com/PhyloclassTalk) to view the current issues
+
+\pagebreak
+
+#License
+
+Copyright 2016 by Hernán Morales Durand and Guillermo Giovambattista.
+
+The contents of this book are protected under the Creative Commons Attribution-ShareAlike 3.0 Unported license.
+
+You are free:
+
+- to **Share**: to copy, distribute and transmit the work,
+- to **Remix**: to adapt the work,
+
+Under the following conditions:
+
+**Attribution.** You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
+
+**Share Alike.** If you alter, transform, or build upon this work, you may distribute the resulting work only under the same, similar or a compatible license.
+
+For any reuse or distribution, you must make clear to others the license terms of this work. The best way to do this is with a link to this web page: [http://creativecommons.org/licenses/by-sa/3.0/](http://creativecommons.org/licenses/by-sa/3.0/)
+
+Any of the above conditions can be waived if you get permission from the copyright holder. Nothing in this license impairs or restricts the author’s moral rights.
+
+Your fair dealing and other rights are in no way affected by the above. This is a human-readable summary of the Legal Code (the full license): [http://creativecommons.org/licenses/by-sa/3.0/legalcode](http://creativecommons.org/licenses/by-sa/3.0/legalcode)
