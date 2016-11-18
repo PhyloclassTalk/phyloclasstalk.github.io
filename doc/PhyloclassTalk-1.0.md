@@ -5,7 +5,7 @@ author:
   - Hernán Morales
   - Guillermo Giovambattista
 affiliation: IGEVET
-date: 26/11/2015
+date: 26/09/2016
 rights:  Creative Commons Non-Commercial Share Alike 3.0
 keywords: phylogenetics, dna, sequence, classification, phylogeography, blast, species, organism
 language: en-US
@@ -34,7 +34,7 @@ PhyloclassTalk is developed using the following technologies:
 
 ## Platforms
 
-PhyloclassTalk is distributed as a desktop application, developed, maintained and tested on [Pharo Smalltalk][8fa36b9f], and therefore it should be able to execute under Microsoft Windows, GNU/Linux and MacOS X platforms. To access latest fixes and features, click in the Configuration icon and the button "Update PhyloclassTalk" from the settings list. PhyloclassTalk has been developed and tested in the following Operating Systems
+PhyloclassTalk is distributed as a desktop application, developed, maintained and tested on [Pharo Smalltalk][8fa36b9f], and therefore it should be able to execute under Microsoft Windows and GNU/Linux platforms. To access latest fixes and features, click in the Configuration icon and the button "Update PhyloclassTalk" from the settings list. PhyloclassTalk has been developed and tested in the following Operating Systems
 
   [8fa36b9f]: http://www.pharo.org "Pharo Smalltalk"
 
@@ -52,23 +52,25 @@ Project data and user working data sets are not sent to any on-line server.
 
 ## What you need
 
-- A BLAST results file in XML format exported from the NCBI WebSite.
+- BLAST results file in XML format exported from the NCBI WebSite from your study sequence.
 - A group of territories or breeds to label retrieved sequence records.
 
 ## Installation
 
+All installations includes sample files. If installation fails in any way please send a mail to the BioSmalltalk Mailing List at <biosmalltalk-users@googlegroups.com>. Below in this manual there are instructions for reporting bugs.
+
 ### Windows
 
-On Windows, simply run the self-installer file. The PhyloclassTalk executable Windows installer can handle required DLL files installation and decompressing the executables and data files into your preferred location. It also includes the sample files.
+On Windows, simply run the self-installer file. The PhyloclassTalk executable Windows installer can handle required DLL files installation and decompressing the executables and data files into your preferred location.
 
 ### Linux
 
 On Linux, untar and uncompress the downloaded distribution:
 
 ```bash
-tar zxvf phyloclasstalk-1.0.0.11.tar.gz
-cd phyloclasstalk-1.0.0.11
-./pharo phyloclasstalk-1.0.0.11.image
+tar zxvf phyloclasstalk-1.0.0.15.tar.gz
+cd phyloclasstalk-1.0.0.15
+./pharo phyloclasstalk-1.0.0.15.image
 ```
 
 _Note: Version numbers can differ according to the current PhyloclassTalk version._
