@@ -65,7 +65,30 @@ On Windows, simply run the self-installer file. The PhyloclassTalk executable Wi
 
 ### Linux
 
-On Linux, untar and uncompress the downloaded distribution:
+To find your Linux distribution version, please evaluate:
+
+```bash
+$ cat /etc/issue
+```
+
+Output should be something like:
+
+```bash
+Ubuntu 14.04.4 LTS \n \l
+```
+
+If output is not informative, then you may try one of the following commands:
+
+```bash
+lsb_release -d
+hostnamectl
+```
+
+_Note: Version numbers can differ according to the current PhyloclassTalk version._
+
+#### ElementaryOS x86-64
+
+Untar and uncompress the downloaded distribution:
 
 ```bash
 tar zxvf phyloclasstalk-1.0.0.15.tar.gz
@@ -73,7 +96,27 @@ cd phyloclasstalk-1.0.0.15
 ./pharo phyloclasstalk-1.0.0.15.image
 ```
 
-_Note: Version numbers can differ according to the current PhyloclassTalk version._
+#### Ubuntu 16.04 (LTS) x86-64
+
+Use the administrator account. i.e. execute in terminal "sudo -i" to install required libraries:
+
+```bash
+dpkg --add-architecture i386
+apt-get update
+apt-get install libx11-6:i386
+apt-get install libgl1-mesa-glx:i386
+apt-get install libfontconfig1:i386
+apt-get install libssl1.0.0:i386
+```
+
+Then uncompress and execute the distribution:
+
+```bash
+tar zxvf phyloclasstalk-1.0.0.15.tar.gz
+cd phyloclasstalk-1.0.0.15
+./pharo phyloclasstalk-1.0.0.15.image
+```
+
 
 \pagebreak
 
@@ -433,8 +476,6 @@ PhyloclassTalk is under active development by members of "Instituto de Genética
 To build latest image of PhyloclassTalk in UNIX-like environment, execute the following script:
 
 ```bash
-#!/bin/sh
-
 (wget -O- http://get.pharo.org/50+vm | bash) \&
 wait
 ./pharo-vm/pharo Pharo.image config \\
@@ -447,13 +488,21 @@ wait
 To build latest image of PhyloclassTalk in Windows environments you need to install MinGW with MSYS, and execute the following script from the MSYS shell (usually `C:\MinGW\msys\1.0\msys.bat`):
 
 ```bash
-#!/bin/sh
-
 (wget -O- http://get.pharo.org/50+vm | bash) \&
 wait
 ./pharo-vm/pharo Pharo.image config \\
   "http://smalltalkhub.com/mc/hernan/PhyloclassTalk" \\
   "ConfigurationOfPhyloclassTalk" --printVersion --install=bleedingEdge
+```
+
+You can also evaluate the build script inside the image with the following expression:
+
+```smalltalk
+Metacello new
+    smalltalkhubUser: 'hernan' project: 'PhyloclassTalk';
+    configuration: 'PhyloclassTalk';
+    version: #bleedingEdge;
+    load
 ```
 
 ## Known Issues
