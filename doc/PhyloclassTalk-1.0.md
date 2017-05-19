@@ -5,7 +5,7 @@ author:
   - Hernán Morales
   - Guillermo Giovambattista
 affiliation: IGEVET
-date: 26/09/2016
+date: 09/04/2017
 rights:  Creative Commons Non-Commercial Share Alike 3.0
 keywords: phylogenetics, dna, sequence, classification, phylogeography, blast, species, organism
 language: en-US
@@ -18,9 +18,9 @@ language: en-US
 PhyloclassTalk is an open-source bioinformatics platform that aims to help providing information about wealth and geographical distribution of studied species. Its main features are:
 
   - A novel graphical user-interface to build BLAST queries (Blast Query Builder).
-  - A territorial builder framework and user-interface based in a new geopolitical library (Territorial).
+  - A territorial builder framework and user-interface based in a new geographic information retrieval library (Territorial).
   - A species repository module enabling species name search and selection for later recognition.
-  - Geographical classification of retrieved sequences through feature extraction and text-mining from the GenBank database.
+  - Classification of retrieved sequences through feature extraction and text-mining from the GenBank database.
 
 PhyloclassTalk is developed using the following technologies:
 
@@ -49,11 +49,6 @@ Project data and user working data sets are not sent to any on-line server.
 \pagebreak
 
 # Getting Started
-
-## What you need
-
-- BLAST results file in XML format exported from the NCBI WebSite from your study sequence.
-- A group of territories or breeds to label retrieved sequence records.
 
 ## Installation
 
@@ -84,9 +79,7 @@ lsb_release -d
 hostnamectl
 ```
 
-_Note: Version numbers can differ according to the current PhyloclassTalk version._
-
-#### ElementaryOS x86-64
+#### CentOS 7.2 x86-64 , ElementaryOS x86-64
 
 Untar and uncompress the downloaded distribution:
 
@@ -95,6 +88,8 @@ tar zxvf phyloclasstalk-1.0.0.15.tar.gz
 cd phyloclasstalk-1.0.0.15
 ./pharo phyloclasstalk-1.0.0.15.image
 ```
+
+_Note: Version numbers can differ according to the current PhyloclassTalk version._
 
 #### Ubuntu 16.04 (LTS) x86-64
 
@@ -116,43 +111,64 @@ tar zxvf phyloclasstalk-1.0.0.15.tar.gz
 cd phyloclasstalk-1.0.0.15
 ./pharo phyloclasstalk-1.0.0.15.image
 ```
+_Note: Version numbers can differ according to the current PhyloclassTalk version._
 
+## What else you need
+
+- BLAST results file in XML format exported from the NCBI WebSite from your study sequence.
+- A group of territories or breeds to label retrieved sequence records.
 
 \pagebreak
 
 # Subsystems
 
-The PhyloclassTalk application’s architecture and behavior can be broken up into two separate function-groups:
+PhyloclassTalk enables you to easily filter BLAST hits, associate sequences with (currently only GenBank) annotations, and perform classifications on these sequences. The PhyloclassTalk application’s architecture and behavior can be broken up into two separate function-groups:
 
-- Configuring and running a classifier over downloaded information.
-- Curating the classified results while updating dictionaries.
+- Configuring and running a classifier over downloaded and filtered sequences meta-data.
+- Curating the classified sequence meta-data using updated organism location knowledge-bases.
 
-Both tasks will be covered in more detail later in this document. PhyloclassTalk enables you to easily filter BLAST hits, associate sequences with (currently only GenBank) annotations, and perform classifications on these sequences.
+Both tasks will be covered in more detail later in this Manual. 
 
 ## Projects
 
-A project must be created to do anything useful beyond reading help and configuring global parameters. To create a PhyloclassTalk project, click the main **Projects** button and the **Create New Project** button. Projects are not saved on disk until the **Save Current Project** button is clicked. Currently projects includes basic information such as Date of creation, Author name, Version number, and specific information related with text-mining and classification:
+A project must be created to do anything useful beyond reading help and configuring global parameters. To create a PhyloclassTalk project, click the main **Projects** button and the **Create New Project** button. Projects are not saved on disk until the **Save Current Project** button is clicked. Currently projects includes basic information such as Date of creation, Author name and Version number. 
+
+![PhyloclassTalk Projects Window](images\PhyloclassTalk_Projects.jpg)
+
+On completion of the configuration tasks, specific information related with text-mining and classification is added to the current project:
 
 - The classifier used.
 - Selected species/organism repositories to support text-mining and classification.
 - Territorial area of interest.
-- Blast Query Manager, which maintains Blast filters and query results.
+- A set of Blast filters and query results, accessible throurh Blast Query Manager.
 
-Once a Project is created, all the remaining tools became available to work in the context of the current project. One could start by defining a territorial area to narrow the text-mining or by filtering a BLAST XML file downloaded from the NCBI's web site.
+Once a Project is created, all the remaining tools are enabled for the current project. One could start by defining a territorial area of interest to narrow the text-mining, or by filtering a BLAST XML file downloaded from the NCBI's web site.
 
 ## Blast Query Builder
 
 Blast is a family of programs (BLASTn, BLASTp, BLASTx, TBLASTn and TBLASTx) to compare a short bio-sequence (called the "query" sequence) against sequences in a large database. There is a huge literature about sequence (and string) matching which can be queried through a simple search in Internet. For such reason an explanation of Blast concepts are beyond the scope of this manual, however we assume a basic understanding of Blast parameters for proper manipulation of the Blast Query Builder.
 
-The Blast Query Builder is an user interface to create and execute queries dynamically against a blast result dataset previously downloaded in XML format. Such input file can be obtained from the NCBI Blast Web Site, exporting the resulting alignment in XML format.
+The Blast Query Builder is an user interface to create and execute queries dynamically against a Blast result dataset previously downloaded in XML format. Such input file can be obtained from the NCBI Blast Web Site, exporting the resulting alignment in XML format.
+
+The following screenshot is a Blast query result page from the NCBI Blastn web page. To download a result set in XML format, click in the Download link as shown:
+
+![NCBI Blast download page](images\PhyloclassTalk_BlastQuery_5.jpg)
+
+Then select the XML format to save the results file:
+
+![NCBI Blast download XML page](images\PhyloclassTalk_BlastQuery_6.jpg)
 
 ### Loading a Data set
 
-To build a query first load XML results exported from the NCBI website. Select File -> Open BLAST XML from the main menu.
+To build a new query, first load XML results exported from the NCBI website. Select File -> Open BLAST XML from the main menu.
+
+![Blast Query Builder load XML](images\PhyloclassTalk_BlastQuery_3.jpg)
 
 If Blast XML results loading is successful, you should see an information dialog as confirmation. A basic validation check is performed to assure a Blast XML file was actually selected. However, XML files which are truncated or not in the expected format (NCBI's BLAST XML) will not be detected until query execution. Blast Query Builder validation process only reads the first bytes of the loaded file, but does not process the entire file until necessary.
 
-You must create and execute at least an initial query filter to work with the results.
+![Blast Query Builder XML information](images\PhyloclassTalk_BlastQuery_4.jpg)
+
+The next step involves to create and execute at least an initial query filter to work with the results.
 
 > Note: Sample XML data sets are included in the PhyloclassTalk files sub-directory.
 
@@ -163,7 +179,7 @@ The BLAST query builder works by selecting BLAST properties of interest along wi
 - Select property, operator and value to create a filter: Oerators are associated with the property selected. Selecting a numeric property (like "Alignment Length") will present corresponding comparators in the operator list. Selecting a string property (like "Hit Definition") will present appropriate operations for comparing Strings.
 - Hit "+" button to add a new filter (optional).
 - Click the "Execute" button.
-- Select nodes of interest in the resulting palette: Blast hits information is taken from the DTD definition at http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd
+- Select nodes of interest in the resulting palette: Blast hits information is taken from the [DTD definition](http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.mod.dtd)
 
 ![Blast Query Results Selection](images\PhyloclassTalk_BlastQuery_1.jpg)
 
@@ -173,7 +189,7 @@ _The High-scoring Segment Pair (HSP) is the fundamental unit of BLAST algorithm 
 
 Supported properties of BLAST results are:
 
-  - Alignment Length: Length of the alignment used
+  - Alignment Length: Length of the alignment used.
   - Hit Definition: Scan the definition line for subject sequence.
   - Hit Length: Length of the subject sequence.
   - Number of Identities in HSP (high-scoring segment pair, or match):  The number and fraction of total residues in the HSP which are identical.
@@ -239,6 +255,34 @@ Select the code and bring the contextual menu, then click Debug it to access the
 
 \pagebreak
 
+##GenBank Browser
+
+The button "GenBank Records" performs a retrieval of resulting records metadata using Entrez E-Utils API. Resulting records are downloaded internally in XML formatted files, although this process is transparent to the user. Once the files are downloaded, the GenBank Browser window is opened browse GenBank records conforming to the NCBI GBSeq specification (http://www.ncbi.nlm.nih.gov/dtd/NCBI_GBSeq.dtd). The GenBank Browser can also be accessed through the menu option Tools -> GenBank Browser in the Blast Query Builder as shown in the following figure:
+
+![Open GenBank Browser Menu Item](images\PhyloclassTalk_BlastQuery_8.jpg)
+
+The GenBank Browser enables navigation of sequence meta-data found in XML formatted files. Such XML files matches a specification given in "DTD" files. GenBank has its own DTD which defines the meaning of XML tags in each result file. Each opening and its enclosing tag builds its own "node" with specific data (including other nodes) to form a tree of nodes. The GenBank Browser works by parsing the nodes found in the downloaded GenBank XML tree.
+
+From the GenBank DTD comment:
+
+>GBSeq represents the elements in a GenBank style report of a sequence with some small additions to structure and support for protein (GenPept) versions of GenBank format as seen in Entrez. While this represents the simplification, reduction of detail, and flattening to a single sequence perspective of GenBank format (compared with the full ASN.1 or XML from which GenBank and this format is derived at NCBI), it is presented in ASN.1 or XML for automated parsing and processing. It is hoped that this compromise will be useful for those bulk processing at the GenBank format level of detail today. Since it is a compromise, a number of pragmatic decisions have been made.
+
+![GenBank Browser Results](images\PhyloclassTalk_GenBank_Records_Browser.jpg)
+
+
+###GenBank Feature Tables
+
+The GenBank Browser contains a list of features to filter results in a Data View grid. Once a feature is selected, features (columns) are updated for the current loaded data set. This is useful to narrow which nodes are significant for your needs by improving space and processing time. Notice that the grid view displays additional/different columns not displayed in the "Profiles List". This is because GenBank/EMBL/DDBJ provides a Feature Table (see http://www.insdc.org/files/feature_table.html for details) to include additional extensible features. Columns like
+
+- "organism"
+- "isolate"
+- "country"
+- "breed"
+
+etc. are contained in **GBQualifier_name** and **GBQualifier_value** nodes in the NCBIGBSeq DTD. This means that to view such "hidden" features, you should select GBQualifier_name and GBQualifier_value in the list of features.
+
+\pagebreak
+
 ## Rule-Base
 
 The Rule-Base Module is an UI for browsing and editing rules in a hierarchical fashion. Rules are displayed as a binary tree enabling to explore how the classification algorithm is evaluated. Each selected rule is displayed along with the Smalltalk code which contains its condition, the true and false branches.
@@ -263,7 +307,6 @@ The repository preview panel displays the selected dictionary, with the possibil
 
 ![Repository Selector](images\PhyloclassTalk_RepositorySelector.jpg)
 
--
 
 ###Updating Repository Data
 
@@ -298,7 +341,7 @@ The Territory Builder supports building custom geopolitical territories for popu
 
 The usage of the Territory Builder is driven by a user-interface (UI) wizard. You can open the Territory Builder wizard by clicking the "Territory Builder" icon in the main application screen. When the process finishes, an "Explorer" window is opened. In the Explorer you may see the properties in your new territory, and save it to a file.
 
-The Territory API is better described in its own manual.
+The Territory API is better described in its own manual at: [https://github.com/hernanmd/Territorial](https://github.com/hernanmd/Territorial)
 
 ###Creating a new territory
 
@@ -320,7 +363,7 @@ Enter a territory name, and hit Next.
 
 Next window will allow to compose territories based on different types of common organizations in the world. New territory groups can be created by using the Territorial Application Programming Interface.
 
-![Territory Name](images\PhyloclassTalk_TerritoryBuilder_4.jpg)
+![Select Territories Window](images\PhyloclassTalk_TerritoryBuilder_4.jpg)
 
 Once finished, the wizard will popup an Explorer window to review or make modifications to the new territory. To view the possible operations over the territory, select the top node (identified by the Territory name) and right-click to bring the contextual menu.
 
@@ -373,27 +416,6 @@ Mismatches can be queried from the "Mismatches View" by selecting an item, a fea
 The search provider enables to narrow the query to a specific search engine. For example, selecting the feature for DOI will search using the [http://doi.org/](http://doi.org/) search engine, selecting an accession number feature (GBSeq_accession-version), will launch a search through Entrez e-Utils service.
 
 Notice the features available to select are generated dynamically from the currently available features for the selected item in the Mismatches View data grid.
-
-\pagebreak
-
-##GenBank Browser
-
-The GenBank Browser allows to browse downloaded GenBank records from the NCBI GBSeq specification (http://www.ncbi.nlm.nih.gov/dtd/NCBI_GBSeq.dtd). From the GenBank DTD comment:
-
->GBSeq represents the elements in a GenBank style report of a sequence with some small additions to structure and support for protein (GenPept) versions of GenBank format as seen in Entrez. While this represents the simplification, reduction of detail, and flattening to a single sequence perspective of GenBank format (compared with the full ASN.1 or XML from which GenBank and this format is derived at NCBI), it is presented in ASN.1 or XML for automated parsing and processing. It is hoped that this compromise will be useful for those bulk processing at the GenBank format level of detail today. Since it is a compromise, a number of pragmatic decisions have been made.
-
-The GenBank Browser works by parsing the nodes found in a downloaded GenBank XML tree. You can download such GenBank XML tree through the Blast Query Module. After filter execution, each results palette includes a button to download the GenBank records for the retrieved/filtered hits.
-
-###GenBank Feature Tables
-
-The GenBank Browser contains a list of features to filter results in a Data View grid. Once a feature is selected, features (columns) are updated for the current loaded data set. This is useful to narrow which nodes are significant for your needs by improving space and processing time. Notice that the grid view displays additional/different columns not displayed in the "Profiles List". This is because GenBank/EMBL/DDBJ provides a Feature Table (see http://www.insdc.org/files/feature_table.html for details) to include additional extensible features. Columns like
-
-- "organism"
-- "isolate"
-- "country"
-- "breed"
-
-etc. are contained in **GBQualifier_name** and **GBQualifier_value** nodes in the NCBIGBSeq DTD. This means that to view such "hidden" features, you should select GBQualifier_name and GBQualifier_value in the list of features.
 
 \pagebreak
 
