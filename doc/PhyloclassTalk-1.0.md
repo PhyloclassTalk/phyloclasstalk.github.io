@@ -347,27 +347,17 @@ The Territory API is better described in its own manual at: [https://github.com/
 
 ![Territory Builder](images\PhyloclassTalk_TerritoryBuilder_1.jpg)
 
-To create a new territory, select the "New Territory" option in the wizard, and click the Next button. A territory name could be composed of any character supported in the host file system, this usually means that characters as \ , / are not allowed. The entered territory name will be used as the file name when saving the territory to a file. A territory is a file with .tty extension.
-
-A new territory could be "Composite" or "Simple":
-
-- A "Simple Territory" consist in a single atomic location, which will not be subdivided logically in your study. This means it could be a Country or even a Continent, but it will not be composed of other sublocations.
-
-- A "Composite Territory" is composed by one or several Simple or Composite territories itself.
-
-![Territory Composition](images\PhyloclassTalk_Territory_Composition.jpg)
-
-Enter a territory name, and hit Next.
+To create a new territory, select the "New Territory" option in the wizard, and click the Next button. A territory name could be composed of any character supported in the host file system, this usually means that characters as \ , : and / are not allowed. The entered territory name will be used as the file name when saving the territory to a file. A territory is a file with .tty extension. Enter a territory name, and hit Next.
 
 ![Territory Name](images\PhyloclassTalk_TerritoryBuilder_3.jpg)
 
-Next window will allow to compose territories based on different types of common organizations in the world. New territory groups can be created by using the Territorial Application Programming Interface.
+Next window will allow to compose territories based on different types of common organizations in the world. Composing means selecting the territories of your interest for a case study, if feasible they will be highlighted in the visualization map. Switching to a different Category (Political, Economical, etc) or Organization, will lose the territory selections you made previously. This is because different organizations has different boundaries or limited recognition of political or administrative entities in the world.
 
 ![Select Territories Window](images\PhyloclassTalk_TerritoryBuilder_4.jpg)
 
 Once finished, the wizard will popup an Explorer window to review or make modifications to the new territory. To view the possible operations over the territory, select the top node (identified by the Territory name) and right-click to bring the contextual menu.
 
-To add territories to a "Composite Territory", select the option "Add territory..." in the menu item.
+New territory groups can be created by using the Territorial Application Programming Interface.
 
 ### Open territory files
 
